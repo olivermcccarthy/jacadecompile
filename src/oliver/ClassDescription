@@ -1,0 +1,324 @@
+ClassFile {
+    u4             magic;
+    u2             minor_version;
+    u2             major_version;
+    u2             constant_pool_count;
+    cp_info        constant_pool[constant_pool_count-1];
+    u2             access_flags;
+    u2             this_class;
+    u2             super_class;
+    u2             interfaces_count;
+    u2             interfaces[interfaces_count];
+    u2             fields_count;
+    field_info     fields[fields_count];
+    u2             methods_count;
+    method_info    methods[methods_count];
+    u2             attributes_count;
+    attribute_info attributes[attributes_count];
+}
+
+CONSTANT_Module_info{
+    u1 tag;
+    u2 name_index;
+}
+
+CONSTANT_Package_info{
+    u1 tag;
+    u2 name_index;
+
+}
+CONSTANT_Class_info {
+    u1 tag;
+    u2 name_index;
+}
+
+cp_info {
+    u1 tag;
+    u1 info[];
+}
+CONSTANT_Integer_info {
+    u1 tag;
+    u4 bytes;
+}
+CONSTANT_Long_info {
+    u1 tag;
+    u4 high_bytes;
+    u4 low_bytes;
+}
+
+CONSTANT_Double_info {
+    u1 tag;
+    u4 high_bytes;
+    u4 low_bytes;
+}
+
+CONSTANT_NameAndType_info {
+    u1 tag;
+    u2 name_index;
+    u2 descriptor_index;
+}
+
+CONSTANT_Utf8_info {
+    u1 tag;
+    u2 length;
+    u1 bytes[length];
+}
+
+CONSTANT_MethodType_info {
+    u1 tag;
+    u2 descriptor_index;
+}
+CONSTANT_MethodHandle_info {
+    u1 tag;
+    u1 reference_kind;
+    u2 reference_index;
+}
+
+CONSTANT_InvokeDynamic_info {
+    u1 tag;
+    u2 bootstrap_method_attr_index;
+    u2 name_and_type_index;
+}
+CONSTANT_Float_info {
+    u1 tag;
+    u4 bytes;
+}
+CONSTANT_String_info {
+    u1 tag;
+    u2 string_index;
+}
+CONSTANT_Fieldref_info {
+    u1 tag;
+    u2 class_index;
+    u2 name_and_type_index;
+}
+
+CONSTANT_Methodref_info {
+    u1 tag;
+    u2 class_index;
+    u2 name_and_type_index;
+}
+
+CONSTANT_InterfaceMethodref_info {
+    u1 tag;
+    u2 class_index;
+    u2 name_and_type_index;
+}
+
+
+field_info {
+    u2             access_flags;
+    u2             name_index;
+    u2             descriptor_index;
+    u2             attributes_count;
+    attribute_info attributes[attributes_count];
+}
+
+method_info {
+    u2             access_flags;
+    u2             name_index;
+    u2             descriptor_index;
+    u2             attributes_count;
+    attribute_info attributes[attributes_count];
+}
+
+
+attribute_info {
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u1 info[attribute_length];
+}
+ConstantValue_attribute {
+    u2 attribute_name_index;
+    u4 attribute_length;
+    u2 constantvalue_index;
+}
+
+Code_attribute {
+    u2 max_stack;
+    u2 max_locals;
+    u4 code_length;
+    u1 code[code_length];
+    u2 exception_table_length;
+    exception_table   exception_table[exception_table_length];
+    u2 attributes_count;
+    attribute_info attributes[attributes_count];
+}
+exception_table {   
+   u2 start_pc;
+        u2 end_pc;
+        u2 handler_pc;
+        u2 catch_type;
+    } 
+
+StackMapTable_attribute {
+    u2              attribute_name_index;
+    u4              attribute_length;
+    u2              number_of_entries;
+    stack_map_frame entries[number_of_entries];
+}
+
+
+LineNumberTable_attribute {
+    u2 line_number_table_length;
+    line_number_table  entries[line_number_table_length];
+}
+
+line_number_table{
+  u2 start_pc;
+  u2 line_number; 
+ 
+}
+
+String_Exp {
+  
+    u2 string_index;
+}
+Exceptions_attribute {
+    u2 number_of_exceptions;
+    u2 String_Exp[number_of_exceptions];
+}
+
+LocalVariableTable_attribute {
+    u2 local_variable_table_length;
+    local_variable_table table[local_variable_table_length];
+}
+local_variable_table{
+    u2 start_pc;
+    u2 length;
+    u2 name_index;
+    u2 descriptor_index;
+    u2 index;
+}
+
+local_variable_type_table{
+      u2 start_pc;
+        u2 length;
+        u2 name_index;
+        u2 signature_index;
+        u2 index;
+}
+
+LocalVariableTypeTable_attribute {
+    u2 local_variable_table_length;
+    local_variable_type_table table[local_variable_table_length];
+}
+
+
+StackMapTable_attribute {
+    u2              number_of_entries;
+    stack_map_frame entries[number_of_entries];
+}
+union stack_map_frame {
+    same_frame;
+    same_locals_1_stack_item_frame;
+    same_locals_1_stack_item_frame_extended;
+    chop_frame;
+    same_frame_extended;
+    append_frame;
+    full_frame;
+}
+
+same_frame {
+    u1 frame_type = SAME; /* 0-63 */
+}
+
+same_locals_1_stack_item_frame {
+    u1 frame_type = SAME_LOCALS_1_STACK_ITEM; /* 64-127 */
+    verification_type_info stack[1];
+}
+
+
+same_locals_1_stack_item_frame_extended {
+    u1 frame_type = SAME_LOCALS_1_STACK_ITEM_EXTENDED; /* 247 */
+    u2 offset_delta;
+    verification_type_info stack[1];
+}
+
+chop_frame {
+    u1 frame_type = CHOP; /* 248-250 */
+    u2 offset_delta;
+}
+
+
+
+same_frame_extended {
+    u1 frame_type = SAME_FRAME_EXTENDED; /* 251 */
+    u2 offset_delta;
+}
+
+append_frame {
+    u1 frame_type = APPEND; /* 252-254 */
+    u2 offset_delta;
+    verification_type_info locals[frame_type-251];
+}
+
+
+
+full_frame {
+    u1 frame_type = FULL_FRAME; /* 255 */
+    u2 offset_delta;
+    u2 number_of_locals;
+    verification_type_info locals[number_of_locals];
+    u2 number_of_stack_items;
+    verification_type_info stack[number_of_stack_items];
+}
+
+
+union verification_type_info {
+    Top_variable_info;
+    Integer_variable_info;
+    Float_variable_info;
+    Long_variable_info;
+    Double_variable_info;
+    Null_variable_info;
+    UninitializedThis_variable_info;
+    Object_variable_info;
+    Uninitialized_variable_info;
+}
+
+
+Top_variable_info {
+    u1 tag = ITEM_Top; /* 0 */
+}
+
+Integer_variable_info {
+    u1 tag = ITEM_Integer; /* 1 */
+}
+  
+  
+Float_variable_info {
+    u1 tag = ITEM_Float; /* 2 */
+}
+    
+    
+Long_variable_info {
+    u1 tag = ITEM_Long; /* 4 */
+}
+
+Double_variable_info {
+    u1 tag = ITEM_Double; /* 3 */
+}
+
+
+Null_variable_info {
+    u1 tag = ITEM_Null; /* 5 */
+}
+
+
+UninitializedThis_variable_info {
+    u1 tag = ITEM_UninitializedThis; /* 6 */
+}
+
+Object_variable_info {
+    u1 tag = ITEM_Object; /* 7 */
+    u2 cpool_index;
+}
+
+Uninitialized_variable_info {
+    u1 tag = ITEM_Uninitialized /* 8 */
+    u2 offset;
+}
+
+
+
